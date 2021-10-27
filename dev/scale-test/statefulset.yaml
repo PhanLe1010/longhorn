@@ -18,8 +18,9 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: '@STS_NAME@'
-        image: 'busybox:latest'
-        command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        image: 'phanle1010/ubuntu:fio'
+        command: ["/bin/bash"]
+        args: ["-c", "while :; do fio --name=simulate-workload-io --ioengine=libaio --direct=1 --readwrite=randrw --bs=128k --size=8G --io_size=5G --filename=/mnt/@STS_NAME@/fio_test_file --iodepth=4 --rwmixread=75; sync; sleep 15; done"]
         livenessProbe:
           exec:
             command:
@@ -38,4 +39,4 @@ spec:
       storageClassName: "longhorn"
       resources:
         requests:
-          storage: 1Gi
+          storage: 10Gi
