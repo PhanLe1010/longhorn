@@ -3879,12 +3879,12 @@ spec:
     spec:
       initContainers:
       - name: wait-longhorn-admission-webhook
-        image: longhornio/longhorn-manager:v1.4.3
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
         command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" -k https://longhorn-admission-webhook:9443/v1/healthz) != "200" ]; do echo waiting; sleep 2; done']
       containers:
       - name: longhorn-manager
-        image: longhornio/longhorn-manager:v1.4.3
-        imagePullPolicy: IfNotPresent
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
+        imagePullPolicy: Always
         securityContext:
           privileged: true
         command:
@@ -3902,7 +3902,7 @@ spec:
         - --support-bundle-manager-image
         - "longhornio/support-bundle-kit:v0.0.25"
         - --manager-image
-        - "longhornio/longhorn-manager:v1.4.3"
+        - "phanle1010/longhorn-manager:v1-4-3-added-slow-termination"
         - --service-account
         - longhorn-service-account
         ports:
@@ -3978,18 +3978,18 @@ spec:
     spec:
       initContainers:
         - name: wait-longhorn-manager
-          image: longhornio/longhorn-manager:v1.4.3
+          image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
           command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done']
       containers:
         - name: longhorn-driver-deployer
-          image: longhornio/longhorn-manager:v1.4.3
-          imagePullPolicy: IfNotPresent
+          image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
+          imagePullPolicy: Always
           command:
           - longhorn-manager
           - -d
           - deploy-driver
           - --manager-image
-          - "longhornio/longhorn-manager:v1.4.3"
+          - "phanle1010/longhorn-manager:v1-4-3-added-slow-termination"
           - --manager-url
           - http://longhorn-backend:9500/v1
           env:
@@ -4059,8 +4059,8 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: longhorn-recovery-backend
-        image: longhornio/longhorn-manager:v1.4.3
-        imagePullPolicy: IfNotPresent
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
+        imagePullPolicy: Always
         securityContext:
           runAsUser: 2000
         command:
@@ -4126,7 +4126,7 @@ spec:
       containers:
       - name: longhorn-ui
         image: longhornio/longhorn-ui:v1.4.3
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         volumeMounts:
         - name : nginx-cache
           mountPath: /var/cache/nginx/
@@ -4188,8 +4188,8 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: longhorn-conversion-webhook
-        image: longhornio/longhorn-manager:v1.4.3
-        imagePullPolicy: IfNotPresent
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
+        imagePullPolicy: Always
         securityContext:
           runAsUser: 2000
         command:
@@ -4248,15 +4248,15 @@ spec:
               topologyKey: kubernetes.io/hostname
       initContainers:
       - name: wait-longhorn-conversion-webhook
-        image: longhornio/longhorn-manager:v1.4.3
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
         command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" -k https://longhorn-conversion-webhook:9443/v1/healthz) != "200" ]; do echo waiting; sleep 2; done']
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         securityContext:
           runAsUser: 2000
       containers:
       - name: longhorn-admission-webhook
-        image: longhornio/longhorn-manager:v1.4.3
-        imagePullPolicy: IfNotPresent
+        image: phanle1010/longhorn-manager:v1-4-3-added-slow-termination
+        imagePullPolicy: Always
         securityContext:
           runAsUser: 2000
         command:
