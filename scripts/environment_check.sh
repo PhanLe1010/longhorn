@@ -315,7 +315,8 @@ check_kernel_release() {
   recommended_kernel_release="5.8"
 
   for pod in ${pods}; do
-    local kernel=$(detect_node_kernel_release ${pod})
+    local kernel=$(detect_node_kernel_release $pod)
+
     if verlt "$kernel" "$recommended_kernel_release"  ; then
       local node=$(kubectl get ${pod} --no-headers -o=custom-columns=:.spec.nodeName)
       warn "Node $node has outdated kernel release: $kernel. Recommending kernel release >= $recommended_kernel_release"
