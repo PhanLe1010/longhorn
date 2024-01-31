@@ -60,7 +60,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /v1/healthz
-            port: 9501
+            port: 9500
             scheme: HTTPS
         volumeMounts:
         - name: dev
